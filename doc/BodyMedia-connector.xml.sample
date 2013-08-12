@@ -1,0 +1,3 @@
+<!-- BEGIN_INCLUDE(bodymedia:get-average-total-caloric-burn) -->
+    <bodymedia:get-average-total-caloric-burn startDate="#[map-payload:day]" endDate="#[map-payload:day]"/>
+<!-- END_INCLUDE(bodymedia:get-average-total-caloric-burn) -->

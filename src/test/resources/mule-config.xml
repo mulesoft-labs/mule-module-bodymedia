@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:bodymedia="http://www.mulesoft.org/schema/mule/bodymedia"
+      xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+        http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/http.xsd
+        http://www.mulesoft.org/schema/mule/bodymedia http://www.mulesoft.org/schema/mule/bodymedia/1.0-SNAPSHOT/mule-bodymedia.xsd">
+
+    <bodymedia:config consumerKey="333rrb2uf254wbpzckq8u64ugzcayteh" apiKey="333rrb2uf254wbpzckq8u64ugzcayteh" consumerSecret="TgMvVDpVPkfCyBtHTfcX32p3cKFDcHZ9AupUcv3pD2YMdfE5K2aND2n2hNZAGAPd">
+    </bodymedia:config>
+
+	  <flow name="authorizationAndAuthenticationFlow">
+	      <http:inbound-endpoint host="localhost" port="8080" path="oauth-authorize"/>
+	      <bodymedia:authorize/>
+	      <http:response-builder status="200">
+	          <set-payload value="You have successfully authorized the connector"/>
+	      </http:response-builder>
+	  </flow>
+
+    <flow name="testFlow">
+    <http:inbound-endpoint host="localhost" port="8081" path="oauth-authorize"/>
+        <bodymedia:get-average-total-caloric-burn  day="20110615"/>
+    </flow>
+
+</mule>

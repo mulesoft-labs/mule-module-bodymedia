@@ -1,0 +1,2088 @@
+<!--
+
+
+    (c) 2003-2012 MuleSoft, Inc. This software is protected under international
+    copyright law. All use of this software is subject to MuleSoft's Master
+    Subscription Agreement (or other Terms of Service) separately entered
+    into between you and MuleSoft. If such an agreement is not in
+    place, you may not use the software.
+
+-->
+
+<xs:schema version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="activityLog" type="activityLogDTO"/>
+  <xs:element name="activityDay" type="activityLogDayDTO"/>
+  <xs:element name="activity" type="activityLogEntryDTO"/>
+  <xs:element name="armband" type="armband"/>
+  <xs:element name="bodyStatValue" type="bodyStatValue"/>
+  <xs:element name="burn" type="burn"/>
+  <xs:element name="burnDay" type="burnDay"/>
+  <xs:element name="callback" type="callbackDTO"/>
+  <xs:element name="callbacks" type="callbackListDTO"/>
+  <xs:element name="error" type="codedError"/>
+  <xs:element name="consumption" type="consumption"/>
+  <xs:element name="food" type="foodDTO"/>
+  <xs:element name="goals" type="goalRangeDTO"/>
+  <xs:element name="goal" type="goalValueDTO"/>
+  <xs:element name="heartRate" type="heartRateDTO"/>
+  <xs:element name="heartRateDay" type="heartRateDayDTO"/>
+  <xs:element name="bpm" type="heartRateDetailDTO"/>
+  <xs:element name="session" type="heartRateSessionDTO"/>
+  <xs:element name="zone" type="heartRateZoneDTO"/>
+  <xs:element name="intensity" type="intensityDTO"/>
+  <xs:element name="intensityDetail" type="intensityDetailDTO"/>
+  <xs:element name="lastSync" type="lastSyncDTO"/>
+  <xs:element name="meal" type="mealDTO"/>
+  <xs:element name="mealDay" type="mealDay"/>
+  <xs:element name="measurement" type="measurement"/>
+  <xs:element name="notification" type="notification"/>
+  <xs:element name="ping" type="ping"/>
+  <xs:element name="preference" type="preferenceDTO"/>
+  <xs:element name="preferences" type="preferenceRangeDTO"/>
+  <xs:element name="record" type="record"/>
+  <xs:element name="serviceError" type="serviceError"/>
+  <xs:element name="serviceInfo" type="serviceInfo"/>
+  <xs:element name="sleepDay" type="sleepDay"/>
+  <xs:element name="period" type="sleepPeriod"/>
+  <xs:element name="sleep" type="sleepRange"/>
+  <xs:element name="stepDay" type="stepDay"/>
+  <xs:element name="hour" type="stepHour"/>
+  <xs:element name="step" type="stepRange"/>
+  <xs:element name="summary" type="summaryDTO"/>
+  <xs:element name="time" type="timeDTO"/>
+  <xs:element name="times" type="timesDTO"/>
+  <xs:element name="timezone" type="timezoneDTO"/>
+  <xs:element name="timezones" type="timezoneRangeDTO"/>
+  <xs:element name="userInfo" type="userInfoDTO"/>
+  <xs:complexType name="activityLogDTO">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[This represents a log of manually entered user activity when the Armband has not been worn. The logs
+are grouped by days.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="dateRange">
+        <xs:sequence>
+          <xs:element name="days" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>
+                <![CDATA[A list of activityDay objects.]]>
+              </xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="activityDay" type="activityLogDayDTO" minOccurs="0" maxOccurs="unbounded">
+                  <xs:annotation>
+                    <xs:documentation>
+                      <![CDATA[A list of activityDay objects.]]>
+                    </xs:documentation>
+                  </xs:annotation>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="activityLogDayDTO">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[This represents a log of manually entered user activity for one day when the user's Armband has not been worn.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="activity" type="activityLogEntryDTO" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[A list of activity objects for the day.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="date" type="xs:string"/>
+  </xs:complexType>
+  <xs:complexType name="activityLogEntryDTO">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[This represents manually entered user activity logged by a user during a time
+when the Armband was not worn.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="dateTimeRange">
+        <xs:sequence>
+          <xs:element name="note" type="xs:string" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>
+                <![CDATA[A note about this activity.]]>
+              </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute name="calories" type="xs:int">
+          <xs:annotation>
+            <xs:documentation>
+              <![CDATA[The total amount of caloric burn for this activity.]]>
+            </xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="type" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>
+              <![CDATA[A code identifying the activity.]]>
+            </xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="armband">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[This holds information about the user's Armband.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="firmware" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Version of the firmware on the user's Armband.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="boardSeries" type="xs:int" minOccurs="1">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The board series.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="serialNumber" type="xs:long" minOccurs="1">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The serial number of the user's Armband.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="bodyStatValue">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Holds actual values for the different types of measurements (weight and waistline).
+The values are chained together in time via their associated start and end
+dates, with the start date of the subsequent equaling the end date of the
+previous bodyStat of the same type. A measurement without an endDate is considered the
+current measurement and a masurement without a startDate is considered the initial measurement.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="startDate" type="xs:string"/>
+        <xs:attribute name="measure" type="measureType"/>
+        <xs:attribute name="endDate" type="xs:string"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="burn">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Represents a summary of caloric burn over a range of days.
+Depending on how this was retrieved it may also contain MET and activity level
+information at summary granularity.
+If requested, this will also contain burn information at a daily and minute granularity.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="dateRange">
+        <xs:sequence>
+          <xs:element name="days" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>
+                <![CDATA[The caloric burn information at daily granularity.]]>
+              </xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="burnDay" type="burnDay" minOccurs="0" maxOccurs="unbounded">
+                  <xs:annotation>
+                    <xs:documentation>
+                      <![CDATA[The caloric burn information at daily granularity.]]>
+                    </xs:documentation>
+                  </xs:annotation>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="intensity" type="intensityDTO" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>
+                <![CDATA[An intensity element containing total and average MET and activity
+level information over this range at a summary granularity.]]>
+              </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="lastSync" type="lastSyncDTO" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>
+                <![CDATA[A date and time indicating the last time the user synced their Armband.]]>
+              </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute name="totalCalories" use="required" type="xs:int"/>
+        <xs:attribute name="averageCalories" use="required" type="xs:int"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="burnDay">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[This object holds the amount of caloric burn for a day.
+If requested, this will also contain burn information at minute granularity.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="minutes" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The caloric burn data at minute granularity. There is one energyMinute (abbreviated to min) for
+each minute in the day. The minutes will be in time order. This means that
+the first minute will be for the 12:00 AM (inclusive) to 12:01 (exclusive) minute.
+The next element will be for the 12:01(inclusive) to 12:02(exclusive) minute.]]>
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="min" type="energyMinute" minOccurs="0" maxOccurs="unbounded">
+              <xs:annotation>
+                <xs:documentation>
+                  <![CDATA[The caloric burn data at minute granularity. There is one energyMinute (abbreviated to min) for
+each minute in the day. The minutes will be in time order. This means that
+the first minute will be for the 12:00 AM (inclusive) to 12:01 (exclusive) minute.
+The next element will be for the 12:01(inclusive) to 12:02(exclusive) minute.]]>
+                </xs:documentation>
+              </xs:annotation>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="intensity" type="intensityDTO" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[An intensity element containing total MET and activity
+level information for this day.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="predictedCalories" use="required" type="xs:int">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The number of calories the user is predicted to burn from the
+current time to the end of the day. This is only available for the current day.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="estimatedCalories" use="required" type="xs:int">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[This estimate is presented when Armband data is not available.
+It represents a historical view of the user's
+caloric burn relative to the time of day being requested. For previous days,
+this is from the time of the last Armband sync to the end of the day. For the
+current day, this is from the time of the last Armband sync to the current time.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="totalCalories" use="required" type="xs:int">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The total caloric burn for this day.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="date" type="xs:string"/>
+  </xs:complexType>
+  <xs:complexType name="callbackDTO">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Represents a subscription to user events. Each callback subscription contains an URL listening
+for notifications and the type of notification it expects.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="type" type="callbackTypeDTO">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The type of notifications sent to this URL.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="url" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URL endpoint listening for BodyMedia notifications.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="callbackListDTO">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[A wrapper containing any callback subscriptions for this application.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="callback" type="callbackDTO" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[A list of callback subscriptions for this application.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="callbackTypeDTO">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The type of callback notification.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="BURN"/>
+      <xs:enumeration value="CONSUMPTION"/>
+      <xs:enumeration value="GOAL"/>
+      <xs:enumeration value="PERSONAL_BEST"/>
+      <xs:enumeration value="STEP"/>
+      <xs:enumeration value="SLEEP"/>
+      <xs:enumeration value="TIMEZONE"/>
+      <xs:enumeration value="UNLINK"/>
+      <xs:enumeration value="USER"/>
+      <xs:enumeration value="WAISTLINE"/>
+      <xs:enumeration value="WEIGHT"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="codedError">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[An error with a specific code and description. If this was generated by a form post, this will also contain the name of the
+field that generated the error.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="description" type="xs:string"/>
+    <xs:attribute name="code" type="errorCode"/>
+    <xs:attribute name="key" type="xs:string"/>
+  </xs:complexType>
+  <xs:complexType name="consumableEnergy" abstract="true">
+    <xs:sequence>
+      <xs:element name="nutrients" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The nutrients for this resource. Depending on how the resource was
+called, this may contain macro or micro nutrients.]]>
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="nutrient" type="nutrient" minOccurs="0" maxOccurs="unbounded">
+              <xs:annotation>
+                <xs:documentation>
+                  <![CDATA[The nutrients for this resource. Depending on how the resource was
+called, this may contain macro or micro nutrients.]]>
+                </xs:documentation>
+              </xs:annotation>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="providedBy" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="provider" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="totalCalories" type="xs:long">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The total number of calories for this meal.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="consumption">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Holds summary consumption information for a day or range of days. Depending on how
+on how this is retrieved, it can optionally contain macro nutrients (The nutrients that contain
+calories) or micro nutrients (all nutrients) for the range.
+Depending on the resource used to retrieve this data, Daily meal and food information will also be included.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="consumableEnergy">
+        <xs:sequence>
+          <xs:element name="days" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>
+                <![CDATA[Meal information grouped into days. This accessor returns
+<tt>null</tt> if #setShowDays(Boolean) is <tt>false</tt>.]]>
+              </xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="mealDay" type="mealDay" minOccurs="0" maxOccurs="unbounded">
+                  <xs:annotation>
+                    <xs:documentation>
+                      <![CDATA[Meal information grouped into days. This accessor returns
+<tt>null</tt> if #setShowDays(Boolean) is <tt>false</tt>.]]>
+                    </xs:documentation>
+                  </xs:annotation>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute name="startDate" type="xs:string"/>
+        <xs:attribute name="endDate" type="xs:string"/>
+        <xs:attribute name="averageCalories" type="xs:long">
+          <xs:annotation>
+            <xs:documentation>
+              <![CDATA[The average calories for each day over this range. Only days with calorie data
+are included when calculating the average. The average includes estimated calorie days as well as days with
+skipped and logged meals.]]>
+            </xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="dateRange">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Represents a time frame. This is typically extended to hold a specific kind of values.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="startDate" type="xs:string"/>
+    <xs:attribute name="endDate" type="xs:string"/>
+  </xs:complexType>
+  <xs:complexType name="dateTimeRange">
+    <xs:attribute name="startDate" type="xs:string"/>
+    <xs:attribute name="endDate" type="xs:string"/>
+  </xs:complexType>
+  <xs:complexType name="energyMinute">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Contains the amount of energy as well as the type for the current minute.
+This may or may not contain the METS information (depends on which resource
+is used to obtain the data). The three MET types, vigorous, moderate and
+sedentary, refer to the MET levels defined by the user.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="source" type="energySource"/>
+    <xs:attribute name="cals" type="xs:float"/>
+    <xs:attribute name="iType" type="metsActivityType">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The intensity level for this minute.
+The intensity level's MET ranges are configurable by the user. To find the user's current or previous configuration
+please see the <a href="PreferenceService.html">Preference Service</a>.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="mets" type="xs:float"/>
+  </xs:complexType>
+  <xs:simpleType name="energySource">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="A"/>
+      <xs:enumeration value="D"/>
+      <xs:enumeration value="G"/>
+      <xs:enumeration value="E"/>
+      <xs:enumeration value="U"/>
+      <xs:enumeration value="S"/>
+      <xs:enumeration value="UE"/>
+      <xs:enumeration value="X"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="errorCode">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="VALUE_OUT_OF_BOUNDS"/>
+      <xs:enumeration value="READ_ONLY"/>
+      <xs:enumeration value="DATE_OUT_OF_BOUNDS"/>
+      <xs:enumeration value="RANGE_TOO_LARGE"/>
+      <xs:enumeration value="INVALID_DATE_FORMAT"/>
+      <xs:enumeration value="NOT_FOUND"/>
+      <xs:enumeration value="INTERNAL_SERVER_ERROR"/>
+      <xs:enumeration value="UNEXPECTED_VALUE"/>
+      <xs:enumeration value="INVALID_URL"/>
+      <xs:enumeration value="INVALID_NUMBER_FORMAT"/>
+      <xs:enumeration value="INCOMPLETE_PROFILE"/>
+      <xs:enumeration value="TIMEZONE_REQUIRED"/>
+      <xs:enumeration value="INVALID_TIMEZONE"/>
+      <xs:enumeration value="HEIGHT_OUT_OF_BOUNDS"/>
+      <xs:enumeration value="INVALID_GENDER"/>
+      <xs:enumeration value="INVALID_HANDEDNESS"/>
+      <xs:enumeration value="INVALID_SMOKER"/>
+      <xs:enumeration value="INVALID_MET_THRESHOLD"/>
+      <xs:enumeration value="INVALID_HEART_RATE_SETTING"/>
+      <xs:enumeration value="INVALID_HEART_RATE_ZONE"/>
+      <xs:enumeration value="INVALID_REMINDER_PERIOD"/>
+      <xs:enumeration value="VIGOROUS_METS_OUT_OF_BOUNDS"/>
+      <xs:enumeration value="MODERATE_METS_OUT_OF_BOUNDS"/>
+      <xs:enumeration value="INVALID_CONSUMPTION_METHOD"/>
+      <xs:enumeration value="HEART_RATE_RESTING_OUT_OF_BOUNDS"/>
+      <xs:enumeration value="HEART_RATE_MAXIMUM_OUT_OF_BOUNDS"/>
+      <xs:enumeration value="HEART_RATE_ZONE_OUT_OF_BOUNDS"/>
+      <xs:enumeration value="INVALID_BOOLEAN"/>
+      <xs:enumeration value="NOT_DELETABLE"/>
+      <xs:enumeration value="CALLBACK_VALIDATION_ERROR"/>
+      <xs:enumeration value="REQUIRED_FIELD"/>
+      <xs:enumeration value="INVALID_CALLBACK_TYPE"/>
+      <xs:enumeration value="CALLBACK_ALREADY_REGISTERED"/>
+      <xs:enumeration value="DATE_MISMATCH"/>
+      <xs:enumeration value="CALORIES_OR_NUTRIENTS_REQUIRED"/>
+      <xs:enumeration value="CALORIES_OUT_OF_BOUNDS"/>
+      <xs:enumeration value="DUPLICATE_MEAL"/>
+      <xs:enumeration value="DUPLICATE_NUTRIENT"/>
+      <xs:enumeration value="MEAL_TYPE_REQUIRED"/>
+      <xs:enumeration value="MEAL_DAY_REQUIRED"/>
+      <xs:enumeration value="SINGLE_DAY_ONLY"/>
+      <xs:enumeration value="JSON_PROCESSING_ERROR"/>
+      <xs:enumeration value="INVALID_MEASUREMENT"/>
+      <xs:enumeration value="INVALID_MEAL_TYPE"/>
+      <xs:enumeration value="INVALID_NUTRIENT"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="eventTypeDTO">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Various events for the user.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="UPLOAD_ARMBAND"/>
+      <xs:enumeration value="UPLOAD_M2M"/>
+      <xs:enumeration value="UPLOAD_SYNC_MAC"/>
+      <xs:enumeration value="UPLOAD_SYNC_WIN"/>
+      <xs:enumeration value="UPLOAD_MOBILE_IOS"/>
+      <xs:enumeration value="UPLOAD_MOBILE_ANDROID"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="foodDTO">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[This object represents a food. This may or may not contain macro or micro nutrients (depends
+on which resource is used to obtain the data).]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="consumableEnergy">
+        <xs:sequence>
+          <xs:element name="description" type="xs:string" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>
+                <![CDATA[A description of this food item.]]>
+              </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute name="measure" type="measureType"/>
+        <xs:attribute name="grams" type="xs:float"/>
+        <xs:attribute name="quantity" type="xs:float"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="goalRangeDTO">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[This object contains a list of goal objects.
+A goal refers to a target such as daily steps and daily sleep minutes. A
+goal can also refer to longer term targets like the weight goal. The goal
+values are chained together in time via their associated start and end dates,
+with the start date of the subsequent equaling the end date of the the
+previous goalValue.
+A goalValue without an endDate is considered the current goal.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="dateRange">
+        <xs:sequence>
+          <xs:element name="goal" type="goalValueDTO" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+              <xs:documentation>
+                <![CDATA[The list of goals.]]>
+              </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:simpleType name="goalTypeDTO">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Represents types of goals set by the user.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="DAILY_CAL_BURN"/>
+      <xs:enumeration value="DAILY_CAL_INTAKE"/>
+      <xs:enumeration value="DAILY_EXER_MIN"/>
+      <xs:enumeration value="DAILY_MOD_MIN"/>
+      <xs:enumeration value="DAILY_SLEEP_MIN"/>
+      <xs:enumeration value="DAILY_STEPS"/>
+      <xs:enumeration value="DAILY_VIG_MIN"/>
+      <xs:enumeration value="TARGET_DATE"/>
+      <xs:enumeration value="WEIGHT"/>
+      <xs:enumeration value="WEIGHT_LOSS_WEEK"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="goalValueDTO">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Represents a goal. A new goalValue is created each time a goal is updated.
+A goal refers to a target such as daily steps and daily sleep minutes. A goal
+can also refer to longer term targets like the weight goal. The goal values
+are chained together in time via their associated start and end dates, with
+the start date of the subsequent equaling the end date of the the previous
+goalValue. A goalValue without an endDate is considered the current goal.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="startDate" type="xs:string"/>
+        <xs:attribute name="endDate" type="xs:string"/>
+        <xs:attribute name="type" type="goalTypeDTO"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="heartRateDTO">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Represents heart rate data over a range of days. Depending on how this was retrieved it may
+also contain summary heart rate zone information.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="heartRateInfoDTO">
+        <xs:sequence>
+          <xs:element name="days" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>
+                <![CDATA[The heart rate information at daily granularity.]]>
+              </xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="heartRateDay" type="heartRateDayDTO" minOccurs="0" maxOccurs="unbounded">
+                  <xs:annotation>
+                    <xs:documentation>
+                      <![CDATA[The heart rate information at daily granularity.]]>
+                    </xs:documentation>
+                  </xs:annotation>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute name="startDate" type="xs:string"/>
+        <xs:attribute name="endDate" type="xs:string"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="heartRateDayDTO">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Represents heart rate information at a day granularity. Depending on how this was retrieved it
+may also contain heart rate zone information.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="heartRateInfoDTO">
+        <xs:sequence>
+          <xs:element name="sessions" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>
+                <![CDATA[Contains a list of heart rate sessions. A new session may be generated each time
+the heart rate sensor is removed, paused or interrupted.]]>
+              </xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="session" type="heartRateSessionDTO" minOccurs="0" maxOccurs="unbounded">
+                  <xs:annotation>
+                    <xs:documentation>
+                      <![CDATA[Contains a list of heart rate sessions. A new session may be generated each time
+the heart rate sensor is removed, paused or interrupted.]]>
+                    </xs:documentation>
+                  </xs:annotation>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute name="date" type="xs:string"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="heartRateDetailDTO">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Represents a heart rate data point. The granularity of the data is dependent on the sensor
+that was used.
+If requested, this will also contain heart rate zone for this bpm reading that the user had set
+at that time.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:simpleContent>
+      <xs:extension base="xs:int">
+        <xs:attribute name="time" use="required" type="xs:long"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="heartRateInfoDTO">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Holds heart rate information for a given day or range of days.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="zones" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Heart rate zone information for this range.]]>
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="zone" type="heartRateZoneDTO" minOccurs="0" maxOccurs="unbounded">
+              <xs:annotation>
+                <xs:documentation>
+                  <![CDATA[Heart rate zone information for this range.]]>
+                </xs:documentation>
+              </xs:annotation>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="maximumBPM" use="required" type="xs:int"/>
+    <xs:attribute name="minimumBPM" use="required" type="xs:int"/>
+    <xs:attribute name="averageBPM" use="required" type="xs:int"/>
+    <xs:attribute name="totalMinutesInZones" type="xs:int"/>
+    <xs:attribute name="averageMinutesInZones" type="xs:int"/>
+  </xs:complexType>
+  <xs:complexType name="heartRateSessionDTO">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Represents a heart rate session. A new session may be generated each time
+the heart rate sensor is removed, paused or interrupted.
+Depending on how it was retrieved, this may also contain heart rate zone information for the session.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="heartRateInfoDTO">
+        <xs:sequence>
+          <xs:element name="details" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>
+                <![CDATA[The heart rate details for this session. The granularity of the data is dependent on the
+sensor that was used.]]>
+              </xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="bpm" type="heartRateDetailDTO" minOccurs="0" maxOccurs="unbounded">
+                  <xs:annotation>
+                    <xs:documentation>
+                      <![CDATA[The heart rate details for this session. The granularity of the data is dependent on the
+sensor that was used.]]>
+                    </xs:documentation>
+                  </xs:annotation>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute name="startDate" type="xs:string"/>
+        <xs:attribute name="endDate" type="xs:string"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="heartRateZoneDTO">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Represents heart rate zone information for a particular zone.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="averageMinutes" type="xs:int"/>
+    <xs:attribute name="totalMinutes" use="required" type="xs:int"/>
+    <xs:attribute name="level" use="required" type="xs:int"/>
+    <xs:attribute name="percent" use="required" type="xs:double"/>
+    <xs:attribute name="boundaryBeatsPerMinute" type="xs:int"/>
+    <xs:attribute name="boundaryPercent" type="xs:int"/>
+  </xs:complexType>
+  <xs:complexType name="intensityDTO">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The intensity element contains MET and activity level information.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="moderate" type="intensityDetailDTO" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Contains the number of minutes and total calories burned at moderate intensity over a day or range of days.
+If this is at a summary granularity this will also include the average number of minutes
+and average total calories burned at moderate intensity per day.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="vigorous" type="intensityDetailDTO" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Contains the number of minutes and total calories burned at vigorous intensity over a day or range of days.
+If this is at a summary granularity this will also include the average number of minutes
+and average total calories burned at vigorous intensity per day.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="sedentary" type="intensityDetailDTO" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Contains the number of minutes and total calories burned at sedentary intensity over a day or range of days.
+If this is at a summary granularity this will also include the average number of minutes
+and average total calories burned at sedentary intensity per day.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="averageMets" use="required" type="xs:float">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The average mets over a day or range of days. This is only returned when this is at a summary granularity
+and is omitted for daily information.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="intensityDetailDTO">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[This contains the number of minutes and total calories burned a specific intensity. (Vigorous, Moderate or Sedentary)
+If this is at a summary granularity this will also include the average number of minutes
+and average total calories burned at a specific intensity per day.
+The intensity level's MET ranges are configurable by the user. To find users current configuration for the activity
+levels or what the intensity levels were at a specific date please see the Preference Service.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="totalMinutes" use="required" type="xs:long">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The total number of minutes at this intensity.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="averageMinutes" type="xs:long">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The average number of minutes at this intensity. This is only included at the summary granularity.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="totalCalories" use="required" type="xs:long">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The total amount of caloric burn at this intensity.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="averageCalories" type="xs:long">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The average amount of caloric burn at this intensity. This is only included at the summary granularity.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="lastSyncDTO">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The date and time the user synchronized their Armband, as well as the method they used to sync.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="dateTime" type="xs:string"/>
+    <xs:attribute name="type" type="eventTypeDTO"/>
+  </xs:complexType>
+  <xs:complexType name="mealDTO">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Represents a meal. The meal may or may not contain a list of food and
+nutrients depending on the resource used to retrieve the meal. Currently six
+meals are tracked: Breakfast, AM Snack, Lunch, PM Snack, Dinner, Late Snack.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="consumableEnergy">
+        <xs:sequence>
+          <xs:element name="foods" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>
+                <![CDATA[The list of foods that make up this meal.]]>
+              </xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="food" type="foodDTO" minOccurs="0" maxOccurs="unbounded">
+                  <xs:annotation>
+                    <xs:documentation>
+                      <![CDATA[The list of foods that make up this meal.]]>
+                    </xs:documentation>
+                  </xs:annotation>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute name="source" type="source">
+          <xs:annotation>
+            <xs:documentation>
+              <![CDATA[The source of this meal. For example, USER_ENTERED]]>
+            </xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="type" type="mealType"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="mealDay">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[A mealDay holds a list of meals logged for the day and a summary of all
+nutrients consumed for the day. Currently six meals are tracked: Breakfast,
+AM Snack, Lunch, PM Snack, Dinner, Late Snack.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="consumableEnergy">
+        <xs:sequence>
+          <xs:element name="meals" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>
+                <![CDATA[A list of meal objects logged for the day.]]>
+              </xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="meal" type="mealDTO" minOccurs="0" maxOccurs="unbounded">
+                  <xs:annotation>
+                    <xs:documentation>
+                      <![CDATA[A list of meal objects logged for the day.]]>
+                    </xs:documentation>
+                  </xs:annotation>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute name="userEstimate" type="xs:boolean">
+          <xs:annotation>
+            <xs:documentation>
+              <![CDATA[Returns true if the user did not log food for the day and instead estimated the total calories
+the day.]]>
+            </xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="date" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>
+              <![CDATA[An ISO 8601 basic date value (example '20100712')]]>
+            </xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:simpleType name="mealType">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The type of the meal. Currently six meals are tracked: Breakfast, AM Snack,
+Lunch, PM Snack, Dinner, Late Snack.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="B"/>
+      <xs:enumeration value="S1"/>
+      <xs:enumeration value="L"/>
+      <xs:enumeration value="S2"/>
+      <xs:enumeration value="D"/>
+      <xs:enumeration value="S3"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="measureType">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Values used to describe how something is measured.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="BAG"/>
+      <xs:enumeration value="BAR"/>
+      <xs:enumeration value="BOTTLE"/>
+      <xs:enumeration value="CALORIE"/>
+      <xs:enumeration value="CAN"/>
+      <xs:enumeration value="COOKIE"/>
+      <xs:enumeration value="CUP"/>
+      <xs:enumeration value="CUP_LARGE"/>
+      <xs:enumeration value="CUP_MEDIUM"/>
+      <xs:enumeration value="CUP_SMALL"/>
+      <xs:enumeration value="DATE"/>
+      <xs:enumeration value="DRINK"/>
+      <xs:enumeration value="EPOCH_TIME"/>
+      <xs:enumeration value="FEET"/>
+      <xs:enumeration value="FILLET"/>
+      <xs:enumeration value="FINGER"/>
+      <xs:enumeration value="FLUID_OUNCE"/>
+      <xs:enumeration value="GALLON"/>
+      <xs:enumeration value="GLASS"/>
+      <xs:enumeration value="GRAM"/>
+      <xs:enumeration value="HEAPED_TABLESPOON"/>
+      <xs:enumeration value="HEAPED_TEASPOON"/>
+      <xs:enumeration value="INCH"/>
+      <xs:enumeration value="ISO_TIME"/>
+      <xs:enumeration value="ITEM"/>
+      <xs:enumeration value="IU"/>
+      <xs:enumeration value="KILOCALORIE"/>
+      <xs:enumeration value="KILOGRAM"/>
+      <xs:enumeration value="LARGE_BAG"/>
+      <xs:enumeration value="LARGE_CAN"/>
+      <xs:enumeration value="LARGE_FILLET"/>
+      <xs:enumeration value="LARGE_GLASS"/>
+      <xs:enumeration value="LARGE_ITEM"/>
+      <xs:enumeration value="LARGE_MEASURE"/>
+      <xs:enumeration value="LARGE_SLICE"/>
+      <xs:enumeration value="LARGE_STEAK"/>
+      <xs:enumeration value="LITER"/>
+      <xs:enumeration value="MATCHBOX"/>
+      <xs:enumeration value="MEASURE"/>
+      <xs:enumeration value="MG"/>
+      <xs:enumeration value="MG_DL"/>
+      <xs:enumeration value="MICROGRAM"/>
+      <xs:enumeration value="MILITARY_TIME"/>
+      <xs:enumeration value="MILLIGRAM"/>
+      <xs:enumeration value="MILLILITER"/>
+      <xs:enumeration value="MINUTE"/>
+      <xs:enumeration value="MUG"/>
+      <xs:enumeration value="NONE"/>
+      <xs:enumeration value="OUNCE"/>
+      <xs:enumeration value="PACKAGE"/>
+      <xs:enumeration value="PACKET"/>
+      <xs:enumeration value="PERCENTAGE"/>
+      <xs:enumeration value="PIECE"/>
+      <xs:enumeration value="PINT"/>
+      <xs:enumeration value="POT"/>
+      <xs:enumeration value="POUND"/>
+      <xs:enumeration value="QUART"/>
+      <xs:enumeration value="RASHER"/>
+      <xs:enumeration value="RATIO"/>
+      <xs:enumeration value="RETINOL_EQU"/>
+      <xs:enumeration value="SACHET"/>
+      <xs:enumeration value="SCOOP"/>
+      <xs:enumeration value="SERVING"/>
+      <xs:enumeration value="SERVING_LARGE"/>
+      <xs:enumeration value="SERVING_MEDIUM"/>
+      <xs:enumeration value="SERVING_SMALL"/>
+      <xs:enumeration value="SLICE"/>
+      <xs:enumeration value="SMALL_CAN"/>
+      <xs:enumeration value="SPOON"/>
+      <xs:enumeration value="SPOON_SMALL"/>
+      <xs:enumeration value="SQUARE"/>
+      <xs:enumeration value="STEAK"/>
+      <xs:enumeration value="TABLESPOON"/>
+      <xs:enumeration value="TABLET"/>
+      <xs:enumeration value="TEASPOON"/>
+      <xs:enumeration value="THICK_SLICE"/>
+      <xs:enumeration value="TUBE"/>
+      <xs:enumeration value="UNIT"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="measurement">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[This object contains a list of measurement values.
+Measurements refer to either weight or waist line.
+The measurement values are chained together in time via their associated start and end
+dates, with the start date of the subsequent equaling the end date of the
+previous measurement of the same type. A measurement without an endDate is considered the
+current measurement.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="dateRange">
+        <xs:sequence>
+          <xs:element name="weight" type="bodyStatValue" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+              <xs:documentation>
+                <![CDATA[Each weight value within this range.]]>
+              </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="waistline" type="bodyStatValue" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+              <xs:documentation>
+                <![CDATA[Each waist line value within this range.]]>
+              </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:simpleType name="metsActivityType">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Represents different levels of activity.
+The intensity level's MET ranges are configurable by the user. To find the user's current or previous configuration
+please see the <a href="PreferenceService.html">Preference Service</a>.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="V"/>
+      <xs:enumeration value="M"/>
+      <xs:enumeration value="S"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="notification">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Represents the notifications that have been generated for the user within the
+Activity Manager.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="details" type="notificationDetail" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[A notification detail object. This contains the method and
+message for the notification.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="record" type="record" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[A Record object if this is a Record notification.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="viewedDate" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The date and time the notification was viewed.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="date" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The date and time of the notification.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="type" type="notificationType">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The type of notification.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="notificationDetail">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[A notificationDetail object contains the method of the notification (WEB,
+SOCIAL_PUSH, SMS, or EMAIL) and the contents of the notification.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="method" type="notificationMethod" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The way the notification was sent to the user. This can be WEB,
+SOCIAL_PUSH, SMS, or EMAIL.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="message" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The contents of the notification.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="nutrient">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[A nutrient represents a nutrient in a food. For example: PROTIEN,
+FAT or CARBOHYDRATES, etc.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="measure" type="measureType"/>
+    <xs:attribute name="averageAmount" type="xs:float">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[If this nutrient is at a summary resolution, this will be the average amount per day.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="totalAmount" type="xs:float">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The amount.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="code" type="xs:string"/>
+  </xs:complexType>
+  <xs:complexType name="ping">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[This object is returned from the ping resource and contains the current server time.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="timestamp" type="xs:string"/>
+  </xs:complexType>
+  <xs:complexType name="preferenceDTO">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[This object holds preference data such as the user's thresholds for METS. It
+also contains default settings for things such as language, and
+country. See preferenceType for a full list.
+Preferences may also be inherited from an upper level configuration like the
+organization structure.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="startDate" type="xs:string"/>
+        <xs:attribute name="endDate" type="xs:string"/>
+        <xs:attribute name="type" type="preferenceTypeDTO"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="preferenceRangeDTO">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[This object holds preference data such as the user's thresholds for METS. It
+also contains default settings for things such as language, timezone and
+country. See preferenceType for a full list.
+Preferences may also be inherited from an upper level configuration like the
+organization structure.
+Preference values are chained together in time via their associated start and
+end dates, with the start date of the subsequent equaling the end date of the
+previous userPreferenceValue of the same type. A preferenceValue without
+an endDate is considered the current preference.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="preference" type="preferenceDTO" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[A history of preference values of the type. This will contain
+new record each time the user preference is updated.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="preferenceTypeDTO">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Various types of user preferences.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="MODERATE_METS_THRESHOLD"/>
+      <xs:enumeration value="VIGOROUS_METS_THRESHOLD"/>
+      <xs:enumeration value="METRIC_DISPLAY"/>
+      <xs:enumeration value="ENERGY_IN_JOULES"/>
+      <xs:enumeration value="SHARE_DATA"/>
+      <xs:enumeration value="CONSUMPTION_METHOD"/>
+      <xs:enumeration value="WEIGHT_INACTIVITY_REMINDER_PERIOD"/>
+      <xs:enumeration value="HEARTRATE_ENABLED"/>
+      <xs:enumeration value="HEARTRATE_MAXIMUM"/>
+      <xs:enumeration value="HEARTRATE_RESTING"/>
+      <xs:enumeration value="HEARTRATE_ZONE1_BPM"/>
+      <xs:enumeration value="HEARTRATE_ZONE2_BPM"/>
+      <xs:enumeration value="HEARTRATE_ZONE3_BPM"/>
+      <xs:enumeration value="HEARTRATE_ZONE4_BPM"/>
+      <xs:enumeration value="HEARTRATE_ZONE5_BPM"/>
+      <xs:enumeration value="HEARTRATE_ZONE1"/>
+      <xs:enumeration value="HEARTRATE_ZONE2"/>
+      <xs:enumeration value="HEARTRATE_ZONE3"/>
+      <xs:enumeration value="HEARTRATE_ZONE4"/>
+      <xs:enumeration value="HEARTRATE_ZONE5"/>
+      <xs:enumeration value="NUTRIENT_CALORIE"/>
+      <xs:enumeration value="NUTRIENT_FAT_TOTAL"/>
+      <xs:enumeration value="NUTRIENT_SATURATED_FAT"/>
+      <xs:enumeration value="NUTRIENT_CHOLESTEROL"/>
+      <xs:enumeration value="NUTRIENT_SODIUM"/>
+      <xs:enumeration value="NUTRIENT_POTASSIUM"/>
+      <xs:enumeration value="NUTRIENT_CARB"/>
+      <xs:enumeration value="NUTRIENT_FIBER"/>
+      <xs:enumeration value="NUTRIENT_SUGAR"/>
+      <xs:enumeration value="NUTRIENT_PROTEIN"/>
+      <xs:enumeration value="NUTRIENT_CALCIUM"/>
+      <xs:enumeration value="NUTRIENT_ALCOHOL"/>
+      <xs:enumeration value="NUTRIENT_IRON"/>
+      <xs:enumeration value="NUTRIENT_FOLIC"/>
+      <xs:enumeration value="NUTRIENT_VITAMIN_A"/>
+      <xs:enumeration value="NUTRIENT_VITAMIN_E"/>
+      <xs:enumeration value="NUTRIENT_VITAMIN_C"/>
+      <xs:enumeration value="NUTRIENT_ZINC"/>
+      <xs:enumeration value="NUTRIENT_SELENIUM"/>
+      <xs:enumeration value="NUTRIENT_NIACIN"/>
+      <xs:enumeration value="NUTRIENT_THIAMIN"/>
+      <xs:enumeration value="NUTRIENT_COPPER"/>
+      <xs:enumeration value="NUTRIENT_MAGNESIUM"/>
+      <xs:enumeration value="NUTRIENT_COBALAMIN"/>
+      <xs:enumeration value="NUTRIENT_CAFFEINE"/>
+      <xs:enumeration value="FEEDBACK_ENABLED"/>
+      <xs:enumeration value="FEEDBACK_CATEGORY_BURN"/>
+      <xs:enumeration value="FEEDBACK_CATEGORY_CONSUME"/>
+      <xs:enumeration value="FEEDBACK_CATEGORY_BALANCE"/>
+      <xs:enumeration value="FEEDBACK_CATEGORY_SLEEP"/>
+      <xs:enumeration value="FEEDBACK_CATEGORY_WEIGHT"/>
+      <xs:enumeration value="FEEDBACK_CATEGORY_SYSTEM"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="record">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[A record object represents best performance of its kind that has been
+previously measured or noted. There are currently ten types of records:
+EXPENDITURE, MOD_ACTIVITY, VIG_ACTIVITY, ACTIVITY, METS, STEPS, SLEEP,
+LYING_DOWN, SLEEP_EFFICIENCY, and MINUTES_ONBODY.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="rangeType" type="rangeType">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The length of time that is record is measured. Currently this can only be DAY.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="value" use="required" type="xs:double">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The value of this record.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="date" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The date this record was set.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="recordType" type="recordType">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The type of this record currently one of: EXPENDITURE, MOD_ACTIVITY, VIG_ACTIVITY, ACTIVITY, METS, STEPS, SLEEP, LYING_DOWN, SLEEP_EFFICIENCY, or MINUTES_ONBODY.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="note" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[A note for this record.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="serviceError">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Represents an error returned from the service.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="status" type="xs:int" minOccurs="1">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The HTTP status code for this error.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="message" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[A description to the cause of the error.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="details" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[A list of detail error codes and descriptions that caused this error.]]>
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="error" type="codedError" minOccurs="0" maxOccurs="unbounded">
+              <xs:annotation>
+                <xs:documentation>
+                  <![CDATA[A list of detail error codes and descriptions that caused this error.]]>
+                </xs:documentation>
+              </xs:annotation>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="serviceInfo">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[ServiceInfo holds version information for the current services.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="timestamp" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The current timestamp on the server]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="majorVersion" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The major version number of the Data API (the 'x' in the version x.y.z)]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="minorVersion" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The minor version number of the Data API (the 'y' in the version x.y.z)]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="releaseVersion" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The release version number of the Data API (the 'z' in the version x.y.z)]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="buildNumber" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The build number (used by BodyMedia, Inc. for diagnostic purposes)]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="revisionNumber" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The revision number (used by BodyMedia, Inc. for diagnostic purposes)]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="basicVersion" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The basic 3-part version of the Data API (major.minor.release)]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="fullVersion" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The full version of the DataAPI (major.minor.release.build.revision)]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="sleepDay">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Holds information about the amount of time spent sleeping and lying down in a
+day. This may or may not contain sleep period information (depends on the resource
+used to obtain the data).]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="sleepPeriods" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The sleep data in minute detail. There is a new period of either sleep or lying down every time
+the user changes state (sleeping, lying down). Periods where the person is neither
+sleeping nor lying down, are not included in this list.
+The list is in time order. The minutes throughout the day are such that index 0 equals 12PM the previous day.
+Periods do not overlap. A period of lying down
+indicates that the user is NOT asleep.]]>
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="period" type="sleepPeriod" minOccurs="0" maxOccurs="unbounded">
+              <xs:annotation>
+                <xs:documentation>
+                  <![CDATA[The sleep data in minute detail. There is a new period of either sleep or lying down every time
+the user changes state (sleeping, lying down). Periods where the person is neither
+sleeping nor lying down, are not included in this list.
+The list is in time order. The minutes throughout the day are such that index 0 equals 12PM the previous day.
+Periods do not overlap. A period of lying down
+indicates that the user is NOT asleep.]]>
+                </xs:documentation>
+              </xs:annotation>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="totalLying" use="required" type="xs:int"/>
+    <xs:attribute name="efficiency" use="required" type="xs:float"/>
+    <xs:attribute name="date" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[An ISO 8601 basic date value (example '20100712')]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="totalSleep" use="required" type="xs:int"/>
+  </xs:complexType>
+  <xs:complexType name="sleepPeriod">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[This object holds the sleep data for one minute.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="duration" use="required" type="xs:int"/>
+    <xs:attribute name="minuteIndex" use="required" type="xs:int"/>
+    <xs:attribute name="state" type="state">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The state of this sleep period, either lying down or asleep. The state of lying down also indicates
+that the user was not asleep.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:simpleType name="state">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="ASLEEP"/>
+      <xs:enumeration value="LYING"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="sleepRange">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[This object holds sleep information over a number of days. The days may or may not
+contain sleep period information (depends on the resource used to obtain the data).]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="dateRange">
+        <xs:sequence>
+          <xs:element name="days" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>
+                <![CDATA[The day information for this range. This may or may not
+contain minute information (depends on the resource used to obtain the
+data).]]>
+              </xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="sleepDay" type="sleepDay" minOccurs="0" maxOccurs="unbounded">
+                  <xs:annotation>
+                    <xs:documentation>
+                      <![CDATA[The day information for this range. This may or may not
+contain minute information (depends on the resource used to obtain the
+data).]]>
+                    </xs:documentation>
+                  </xs:annotation>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="lastSync" type="lastSyncDTO" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>
+                <![CDATA[A date and time indicating the last time the user synced their Armband.]]>
+              </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute name="averageSleep" use="required" type="xs:int">
+          <xs:annotation>
+            <xs:documentation>
+              <![CDATA[Daily average number of minutes spent sleeping over this range.]]>
+            </xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="totalLying" use="required" type="xs:int">
+          <xs:annotation>
+            <xs:documentation>
+              <![CDATA[The total number of minutes spent lying down for this range.]]>
+            </xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="averageLying" use="required" type="xs:int">
+          <xs:annotation>
+            <xs:documentation>
+              <![CDATA[Daily average number of minutes spent lying down for this range.]]>
+            </xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="efficiency" use="required" type="xs:float">
+          <xs:annotation>
+            <xs:documentation>
+              <![CDATA[The percentage of time spent sleeping vs lying down for this range.]]>
+            </xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="totalSleep" use="required" type="xs:int">
+          <xs:annotation>
+            <xs:documentation>
+              <![CDATA[The total number of minutes spent sleeping for this range.]]>
+            </xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:simpleType name="source">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="USER_ENTRY"/>
+      <xs:enumeration value="USER_ESTIMATE"/>
+      <xs:enumeration value="SKIPPED"/>
+      <xs:enumeration value="SYS"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="stepDay">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[This object contains the step information for a day. It may or may not
+contain hour data (depends on the resource used to obtain the data).]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="hours" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Step data per hour.
+There is an entry for each hour and the list will be in time order.
+This means that the first element will be for the 12:00 AM (inclusive) to
+1:00 AM (exclusive) hour, the second element will be for the 1:00 AM
+(inclusive) to 2:00 AM (exclusive) hour, etc.]]>
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="hour" type="stepHour" minOccurs="0" maxOccurs="unbounded">
+              <xs:annotation>
+                <xs:documentation>
+                  <![CDATA[Step data per hour.
+There is an entry for each hour and the list will be in time order.
+This means that the first element will be for the 12:00 AM (inclusive) to
+1:00 AM (exclusive) hour, the second element will be for the 1:00 AM
+(inclusive) to 2:00 AM (exclusive) hour, etc.]]>
+                </xs:documentation>
+              </xs:annotation>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="date" type="xs:string"/>
+    <xs:attribute name="totalSteps" use="required" type="xs:int">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The total number of steps for this day.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="stepHour">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[This object holds the number of steps taken in for an individual hour of a day.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="totalSteps" use="required" type="xs:int"/>
+  </xs:complexType>
+  <xs:complexType name="stepRange">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[This object holds step data for a range of days. The days may or may not
+contain hour data (depends on the resource used to obtain the data).]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="dateRange">
+        <xs:sequence>
+          <xs:element name="days" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>
+                <![CDATA[The daily step data. The days may or may not contain hour data (depends on the
+resource used to obtain the data).]]>
+              </xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="stepDay" type="stepDay" minOccurs="0" maxOccurs="unbounded">
+                  <xs:annotation>
+                    <xs:documentation>
+                      <![CDATA[The daily step data. The days may or may not contain hour data (depends on the
+resource used to obtain the data).]]>
+                    </xs:documentation>
+                  </xs:annotation>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="lastSync" type="lastSyncDTO" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>
+                <![CDATA[A date and time indicating the last time the user synced their Armband.]]>
+              </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute name="totalSteps" use="required" type="xs:int">
+          <xs:annotation>
+            <xs:documentation>
+              <![CDATA[The total number of steps taken for this range of days.]]>
+            </xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="averageSteps" use="required" type="xs:int">
+          <xs:annotation>
+            <xs:documentation>
+              <![CDATA[Average number of steps taken in a day for this user over this range.]]>
+            </xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="summaryDTO">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[This object holds summary of caloric burn, caloric consumption, steps,
+and sleep. Each of the values returned will not
+always be relevant for the user. For instance, if the user is not logging
+meals, the caloric consumption and balance information will not be relevant.
+Whether or not the user is meal logging can be determined by looking at at
+the user's current preferences.
+The Consumption, Burn, Step, and Sleep objects below may or may not contain data at
+a day resolution depending on how the resource was called. Higher resolution data can be
+retrieved from the other services.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="dateRange">
+        <xs:sequence>
+          <xs:element name="consumption" type="consumption" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>
+                <![CDATA[The consumption information for the day or range of days.]]>
+              </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="burn" type="burn" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>
+                <![CDATA[Caloric burn information for the day or range of days.]]>
+              </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="step" type="stepRange" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>
+                <![CDATA[The step information for the day or range of days.]]>
+              </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="sleep" type="sleepRange" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>
+                <![CDATA[The sleep information for the day or range of days.]]>
+              </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="heartRate" type="heartRateDTO" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>
+                <![CDATA[The heart rate information for the day or range of days. This is returned if heart rate support is enabled.]]>
+              </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="lastSync" type="lastSyncDTO" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>
+                <![CDATA[A date and time indicating the last time the user synced their Armband.]]>
+              </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="timeDTO">
+    <xs:attribute name="iso" type="xs:string"/>
+    <xs:attribute name="epoch" type="xs:long"/>
+  </xs:complexType>
+  <xs:complexType name="timesDTO">
+    <xs:sequence>
+      <xs:element name="dayStart" type="timeDTO" minOccurs="0"/>
+      <xs:element name="dayEnd" type="timeDTO" minOccurs="0"/>
+      <xs:element name="requestedTime" type="timeDTO" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="timezoneDTO">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Represents time zones that have been set by the user. Each time a user updates their time zone
+a new time zone entry is created.
+The time zone values are chained together in time via their associated start and end
+dates, with the start date of the subsequent equaling the end date of the
+previous time zone. A time zone without an endDate is considered the
+current time zone.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="startDate" type="xs:string"/>
+        <xs:attribute name="endDate" type="xs:string"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="timezoneRangeDTO">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Represents time zones that have been set by the user. Each time a user updates their time zone
+a new time zone entry is created.
+The time zone values are chained together in time via their associated start and end
+dates, with the start date of the subsequent equaling the end date of the
+previous time zone. A time zone without an endDate is considered the
+current time zone.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="timezone" type="timezoneDTO" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[A list of timezones set by the user.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="userInfoDTO">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[This object holds basic user information.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="id" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[A unique id for this user.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="externalId" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[A custom user identifier for the application using the BodyMedia FIT API.
+If this ID not been set by the application, it will not be present.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="birthday" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The users birth date.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="timezone" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The user's current time zone setting.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="weight" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The user's last weight entry.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="gender" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The user's gender.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="orgCode" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The user's organization code.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="brandName" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The brand name.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="brandURI" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The brand URI.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="firstName" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The user's first name.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="middleInitial" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The user's middle initial.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="lastName" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The user's last name.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="countryCode" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The user's country code.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="languageCode" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The user's language code.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="registrationDate" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The user's registration date.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="bedTime" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The time the user usually goes to bed.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="wakeTime" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The time the user usually wakes up.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="handedness" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Whether this person is left or right handed.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="smoker" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Indicates whether the user is or is not a smoker.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="height_inches" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The user's height in inches.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="armband" type="armband" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The user's Armband information.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="notificationMethod">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="WEB"/>
+      <xs:enumeration value="EMAIL"/>
+      <xs:enumeration value="SMS"/>
+      <xs:enumeration value="PUSH_SOCIAL"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="notificationType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="WEIGHT_REMINDER"/>
+      <xs:enumeration value="INFO"/>
+      <xs:enumeration value="ANNOUNCEMENT"/>
+      <xs:enumeration value="USER_RECORDS_ESTABLISHED"/>
+      <xs:enumeration value="USER_RECORD"/>
+      <xs:enumeration value="REGISTER_ARMBAND"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="rangeType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="DAY"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="recordType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="EXPENDITURE"/>
+      <xs:enumeration value="MOD_ACTIVITY"/>
+      <xs:enumeration value="VIG_ACTIVITY"/>
+      <xs:enumeration value="ACTIVITY"/>
+      <xs:enumeration value="METS"/>
+      <xs:enumeration value="STEPS"/>
+      <xs:enumeration value="SLEEP"/>
+      <xs:enumeration value="LYING_DOWN"/>
+      <xs:enumeration value="SLEEP_EFFICIENCY"/>
+      <xs:enumeration value="MINUTES_ONBODY"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>
